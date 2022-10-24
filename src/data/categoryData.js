@@ -1,0 +1,22 @@
+export default  categoryData = [
+      {
+        name:'All',
+        id:1
+      },
+      {
+        name:'Sport',
+        id:2
+      },
+      {
+        name:'Health',
+        id:3
+      },
+      {
+        name:'Economy',
+        id:4
+      },
+      {
+        name:'Politician',
+        id:5
+      },
+    ]
