@@ -8,6 +8,7 @@ import store from './src/redux/store';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabBar from './src/components/BottomTabBar';
 import NewsDetails from './src/pages/screens/NewsDetails/NewsDetails';
+import SearchScreen from './src/pages/screens/SearchScreen/SearchScreen';
 
 const App = () => {
 
@@ -19,6 +20,7 @@ const App = () => {
     return(
       <BottomTabNavigator.Navigator tabBar={(props) =><BottomTabBar {...props}/>} screenOptions={{headerShown:false}} >
         <BottomTabNavigator.Screen component={Home} name='BottomHome' options={{tabBarLabel:'Home'}} />
+        <BottomTabNavigator.Screen component={SearchScreen} name='BottomSearchScreen' />
       </BottomTabNavigator.Navigator>
     )
   }

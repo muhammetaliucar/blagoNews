@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native"
 import { View,Text,Image, TouchableOpacity } from "react-native"
 
 const HomeNewsBottomCard = ({item,index}) =>{
-  console.log(index,'ben item')
+  console.log(item,'ben item')
   const navigation = useNavigation()
 
   return (

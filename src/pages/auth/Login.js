@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text,View,SafeAreaView,FlatList, TextInput,Dimensions, TouchableOpacity } from 'react-native'
+import { Text,View,SafeAreaView,FlatList, KeyboardAvoidingView,  TextInput,Dimensions, TouchableOpacity } from 'react-native'
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message'
@@ -10,7 +10,7 @@ const Login = () => {
 
   const dim = Dimensions.get('window')
   const [mail,setMail] = useState('ali@ucar.com')
-  const [password,setPassword] = useState('123123')
+  const [password,setPassword] = useState('123')
   const navigate = useNavigation()
   const dispatch = useDispatch()
 
@@ -48,7 +48,7 @@ const Login = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#372D72' }}>
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: '#372D72' }}>
       <View style={{ flex: 0.3, backgroundColor: '#372D72', justifyContent: 'center', alignItems: 'center' }}>
         <Text style={{ fontSize: 50, color: 'white' }}>.blago</Text>
       </View>
@@ -75,7 +75,7 @@ const Login = () => {
       </View>
 
 
-    </SafeAreaView>
+    </KeyboardAvoidingView>
 
   )
 }

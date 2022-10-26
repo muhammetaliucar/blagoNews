@@ -16,13 +16,13 @@ const BottomTabBar = ({state}) => {
                     <Ionicons name="home-outline" size={24} />
                 </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={() => console.log(state)}>
-                <View>
+            <TouchableWithoutFeedback  onPress={() => {navigation.navigate('BottomSearchScreen')}}>
+                <View style={{borderTopWidth:state.index === 1 ? 1 :0,padding:5}}>
                 <EvilIcons name="search" size={30} />
                 </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={() => navigation.navigate('BottomMyProfile')}>
-                <View style={{borderTopWidth:state.index === 1 ? 1 :0,padding:5}} >
+            <TouchableWithoutFeedback >
+                <View style={{borderTopWidth:state.index === 2 ? 1 :0,padding:5}} >
                 <FontAwesome5 name="bookmark" size={22} />
                 </View>
             </TouchableWithoutFeedback>
