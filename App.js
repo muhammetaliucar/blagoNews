@@ -10,7 +10,7 @@ import BottomTabBar from './src/components/BottomTabBar';
 import NewsDetails from './src/pages/screens/NewsDetails/NewsDetails';
 import SearchScreen from './src/pages/screens/SearchScreen/SearchScreen';
 import AuthorDetails from './src/pages/screens/AuthorDetails/AuthorDetails';
-
+import Settings from './src/pages/screens/Settings/Settings';
 const App = () => {
 
   const Stack = createNativeStackNavigator()
@@ -22,6 +22,7 @@ const App = () => {
       <BottomTabNavigator.Navigator tabBar={(props) =><BottomTabBar {...props}/>} screenOptions={{headerShown:false}} >
         <BottomTabNavigator.Screen component={Home} name='BottomHome' options={{tabBarLabel:'Home'}} />
         <BottomTabNavigator.Screen component={SearchScreen} name='BottomSearchScreen' />
+        <BottomTabNavigator.Screen component={Settings} name='BottomSettings' />
       </BottomTabNavigator.Navigator>
     )
   }
@@ -36,6 +37,8 @@ const App = () => {
         <Stack.Screen name='BottomTabs' component={BottomTabs} />
         <Stack.Screen name='NewsDetails' component={NewsDetails} />
         <Stack.Screen name='AuthorDetails' component={AuthorDetails} />
+        <Stack.Screen name='Settings' component={Settings} />
+        
       </Stack.Navigator>
       <Toast />
     </NavigationContainer>

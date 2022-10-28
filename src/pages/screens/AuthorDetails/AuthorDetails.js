@@ -51,7 +51,6 @@ const AuthorDetails = ({ route }) => {
             <SafeAreaView>
             <TouchableOpacity onPress={()=> navigate.goBack()}>
             <MaterialIcons style={{ marginStart:10 }} color={'white'} name="arrow-back-ios" size={34} />
-
             </TouchableOpacity>
                 <View>
                     <Text style={{ color: 'white', fontSize: 25,flexShrink:1,textAlign:'center',marginTop:30 }}>{item.author.name} {item.author.surname}</Text>

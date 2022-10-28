@@ -22,12 +22,12 @@ const BottomTabBar = ({state}) => {
                 </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback >
-                <View style={{borderTopWidth:state.index === 2 ? 1 :0,padding:5}} >
+                <View >
                 <FontAwesome5 name="bookmark" size={22} />
                 </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={() => console.log('hello')}>
-                <View style={{borderTopWidth:0,padding:5}}>
+            <TouchableWithoutFeedback onPress={() => {navigation.navigate('BottomSettings')}}>
+                <View style={{borderTopWidth:state.index === 2 ? 1 :0,padding:5}} >
                 <Feather name="settings" size={24} />
                 </View>
             </TouchableWithoutFeedback>
