@@ -1,42 +1,66 @@
-import { Text,ScrollView, TouchableOpacity,View, FlatList, Image, Dimensions, ImageBackground,VirtualizedList } from "react-native"
+import { Text,ScrollView, RefreshControl,View, FlatList,Image } from "react-native"
 import categoryData from "../../../data/categoryData"
-import sliderData from "../../../data/sliderData"
 import HomeSliderComponent from "../../../components/HomeSliderComponent"
 import HomeStyle from "./Home.style"
 import HomeCategoryTitle from "../../../components/HomeCategoryTitle"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useState } from "react"
 import HomeNewsBottomCard from "../../../components/HomeNewsBottomCard"
+import axios from "axios"
+import { useEffect } from "react"
+import { useSelector } from "react-redux"
+import Lottie from 'lottie-react-native';
 
 const Home = () =>{
 
     const [selectedCat,setSelectedCat] = useState(null)
-    const [data,setData] = useState(sliderData)
+    const [data,setData] = useState([])
+    const [refreshing, setRefreshing] = useState(false);
+    const { userInfo } = useSelector((res) => res.user)
+    console.log(userInfo)
 
     const selectedCatFunc = content => {
-      console.log(content)
       setSelectedCat(content)
-      if(content.name === 'All' ) setData(sliderData)
-      else{setData(sliderData.filter(e => e.category === content.name ))}
     };
 
+    const fetchData = async() =>{
+      await axios.get('http://localhost:3000/news').then(res =>{
+        setData(res.data)
+      }
+      )
+    }
+
+    useEffect(()=>{
+      setTimeout(fetchData,1000)
+    },[])
+
+    console.log(data)
+    if (data.length === 0) return <Lottie source={require('../../../assets/animations/newspaper.json')} autoPlay loop />
     return(
-      <ScrollView>
-        <SafeAreaView style={{margin:20}}>
-        <View >
-          <Text style={HomeStyle.homeHeader}>Breaking News</Text>
-          <FlatList 
+      <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={fetchData} />} >
+        <SafeAreaView style={{ marginHorizontal: 20 }}>
+          <View >
+            <View style={{ marginBottom: 10, flexDirection: 'row', justifyContent:'space-between' }} >
+              <Text style={HomeStyle.homeHeader}>News</Text>
+              <View style={{flexDirection:'row',alignItems:'center'}}>
+                <Text style={{fontSize:16}}>{userInfo.result.name}</Text>
+                <Text style={{fontSize:16}}>{userInfo.result.surname}</Text>
+                <Image source={{ uri: userInfo.result.photo }}
+                  style={{ height: 45, width: 45, borderRadius: 30,marginStart:10 }} />
+              </View>
+            </View>
+            <FlatList 
           showsHorizontalScrollIndicator={false} 
-          data={sliderData.slice(0,4)} 
+          data={data} 
+          keyExtractor={(item,index) => item.id}
           horizontal 
-          keyExtractor={(e) => e.id}
           renderItem={({ item }) => <HomeSliderComponent item={item} />} />
         </View>
           <View style={{ margin: 20, flexDirection: 'row' }}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {categoryData.map(e => {
                 return (
-                  <HomeCategoryTitle selected={selectedCatFunc} item={e} />)
+                  <HomeCategoryTitle  selected={selectedCatFunc} item={e} />)
               })}
             </ScrollView>
           </View>

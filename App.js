@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabBar from './src/components/BottomTabBar';
 import NewsDetails from './src/pages/screens/NewsDetails/NewsDetails';
 import SearchScreen from './src/pages/screens/SearchScreen/SearchScreen';
+import AuthorDetails from './src/pages/screens/AuthorDetails/AuthorDetails';
 
 const App = () => {
 
@@ -34,6 +35,7 @@ const App = () => {
         <Stack.Screen name='Login' component={Login} />
         <Stack.Screen name='BottomTabs' component={BottomTabs} />
         <Stack.Screen name='NewsDetails' component={NewsDetails} />
+        <Stack.Screen name='AuthorDetails' component={AuthorDetails} />
       </Stack.Navigator>
       <Toast />
     </NavigationContainer>
