@@ -33,9 +33,9 @@ const Home = () =>{
     useEffect(()=>{
       setTimeout(fetchData,1000)
     },[])
-
-    console.log(data)
+   
     if (data.length === 0) return <Lottie source={require('../../../assets/animations/newspaper.json')} autoPlay loop />
+    
     return(
       <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={fetchData} />} >
         <SafeAreaView style={{ marginHorizontal: 20 }}>
@@ -70,7 +70,6 @@ const Home = () =>{
             </View>: 
             data.map((e,i) => <HomeNewsBottomCard item={e} index={i} />)
           }
-       
         </SafeAreaView>
       </ScrollView>
     )
