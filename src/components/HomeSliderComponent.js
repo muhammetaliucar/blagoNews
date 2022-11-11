@@ -5,9 +5,6 @@ import moment from "moment"
 const HomeSliderComponent = ({ item }) => {
   const dim = Dimensions.get('window')
   const navigate = useNavigation()
-  
-  console.log(item, 'ben item')
-
   return (
     <TouchableOpacity onPress={()=>navigate.navigate('NewsDetails',{item}) }>
       <ImageBackground imageStyle={{ borderRadius: 30 }} source={{ uri: item.photo }} style={{ height: dim.height * 0.5, width: dim.width * 0.8, borderRadius: 40, marginEnd: 10, justifyContent: 'flex-end' }}>

@@ -1,4 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
+
+
+
 export const userSlice = createSlice({
     name:'user',
     initialState: {
@@ -10,8 +14,10 @@ export const userSlice = createSlice({
           },
         logout: (state,action) =>{
           state.userInfo = action.payload;
-        }  
-
+        },
+        getUser: (state,action) =>{
+          state.userInfo = action.payload;
+        }
     }  
 })
 export const {setUser, logout} = userSlice.actions;

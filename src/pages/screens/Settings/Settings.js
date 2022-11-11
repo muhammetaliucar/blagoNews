@@ -1,73 +1,74 @@
 import React, { useState } from 'react'
-import { Text, View, ScrollView, Dimensions, Image, SafeAreaView, TouchableOpacity, Button, FlatList } from 'react-native'
-import { useSelector } from 'react-redux'
+import { Text, View, ScrollView, Dimensions, Image, SafeAreaView, TouchableOpacity, FlatList } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import SettingsStyle from './Settings.style'
 import Modal from 'react-native-modal'
 import axios from 'axios'
+import { useNavigation } from '@react-navigation/native'
+import { setUser } from '../../../redux/userSlice'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useEffect } from 'react';
 
 const Settings = () => {
     const { userInfo } = useSelector((res) => res.user)
-
+    const [avatarData, setAvatarData] = useState(null)
+    const [asyncData, setAsyncData] = useState(null)
     const [isModalVisible, setModalVisible] = useState(false)
-    const [selectedAvatar, setSelectedAvatar] = useState(userInfo.result.avatarNumber)
-
+    const [selectedAvatar, setSelectedAvatar] = useState(userInfo?.result?.avatarNumber)
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
+    const navigation = useNavigation()
+    const dispatch = useDispatch()
 
     const dim = Dimensions.get('window')
 
-    const arr = [
-        {
-            number: 1,
-            avatarPath: require('../../../../assets/1.png')
-        },
-        {
-            number: 2,
-            avatarPath: require('../../../../assets/2.png')
-        },
-        {
-            number: 3,
-            avatarPath: require('../../../../assets/3.png')
-        },
-        {
-            number: 4,
-            avatarPath: require('../../../../assets/4.png')
-        },
-        {
-            number: 5,
-            avatarPath: require('../../../../assets/5.png')
-        },
-        {
-            number: 6,
-            avatarPath: require('../../../../assets/6.png')
-        },
-    ]
+    const fetchAvatarData = async() =>{
+        try {
+            setAsyncData(JSON.parse(await AsyncStorage.getItem('info')))
+            await axios.get('http://localhost:3000/avatar').then(
+            res => setAvatarData(res.data)
+        )
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    console.log(asyncData,'ben data')
+    useEffect(async ()=>{
+        fetchAvatarData()
 
-    const handleChange = async () => {
-        await axios.post('http://localhost:3000/users/changeAvatar', {
-            id: userInfo.result.id,
-            data: selectedAvatar
-        }).then(res => {
-            setModalVisible(!isModalVisible)
+    },[])
+
+    const handleLogout = () => {
+        navigation.reset({
+            index: 1,
+            routes: [{ name: 'Login' }]
         })
+        dispatch(setUser({}))
+        AsyncStorage.clear()
+    }
+
+    const renderItem = ({ item }) =>
+    {
+        return (
+            <TouchableOpacity onPress={() => { setSelectedAvatar(item.number); handleChange() }} style={{ paddingHorizontal: 5, borderWidth: selectedAvatar === item.number ? 1 : 0, marginHorizontal: 10, borderRadius: 10, borderColor: '#372D79' }}>
+                <Image source={{uri:item.avatarUrl}}
+                    style={{ height: dim.height * 0.15, width: dim.width * 0.2, resizeMode: 'contain' }} />
+            </TouchableOpacity>
+        )
     }
 
     return (
         <ScrollView>
-            <View style={{ height: dim.height * 0.3, backgroundColor: '#372D79' }} >
+            <View style={SettingsStyle.containerUp} >
                 <SafeAreaView>
                     <View>
-                        <Text style={SettingsStyle.name}>{userInfo.result.name} {userInfo.result.surname}</Text>
+                        <Text style={SettingsStyle.name}>{userInfo?.result?.name} {userInfo?.result?.surname}</Text>
                     </View>
                 </SafeAreaView>
             </View>
             <TouchableOpacity onPress={toggleModal} style={SettingsStyle.avatar}>
-                <Image source={arr[selectedAvatar - 1].avatarPath} style={{
-                    width: dim.width * 0.4,
-                    height: 150,
-                    borderRadius: 999,
-                }} />
+                <Image source={{uri:asyncData?.avatarUrl}} style={SettingsStyle.image} />
             </TouchableOpacity>
             <View style={{ marginTop: dim.height * 0.15, marginHorizontal: 20 }}>
                 <View style={{ borderBottomWidth: 1, padding: 5, marginBottom: dim.height * 0.05 }}>
@@ -79,29 +80,22 @@ const Settings = () => {
                 <View style={{ borderBottomWidth: 1, padding: 5, marginBottom: dim.height * 0.05 }}>
                     <Text style={{ fontSize: 18 }}>User Information</Text>
                 </View>
-                <View style={{ borderBottomWidth: 1, padding: 5, marginBottom: dim.height * 0.05 }}>
+                <TouchableOpacity onPress={handleLogout} style={{ borderBottomWidth: 1, padding: 5, marginBottom: dim.height * 0.05 }}>
                     <Text style={{ fontSize: 18 }}>Logout</Text>
-                </View>
+                </TouchableOpacity>
             </View>
             <Modal style={SettingsStyle.modal} onBackdropPress={toggleModal} isVisible={isModalVisible}>
-                <View style={{ backgroundColor: 'white', height: dim.height * 0.5, justifyContent: 'space-around', alignItems: 'center' }} >
+                <View style={{ borderTopRightRadius: 15, borderTopLeftRadius: 15, backgroundColor: 'white', height: dim.height * 0.5, justifyContent: 'space-around', alignItems: 'center' }} >
                     <View style={{ flex: 0.8, alignItems: 'center', justifyContent: 'center' }}>
-                        <FlatList style={{ flex: 1 }} numColumns={3} data={arr}
-                            renderItem={({ item }) => {
-                                return (
-                                    <TouchableOpacity onPress={() => { setSelectedAvatar(item.number); handleChange()  }} style={{ padding: 11, borderWidth: selectedAvatar === item.number ? 1 : 0, margin: 10, borderRadius: 10, borderColor: '#372D79' }}>
-                                        <Image source={item.avatarPath}
-                                            style={{ height: dim.height*0.15, width: dim.width*0.2,resizeMode:'center' }} />
-                                    </TouchableOpacity>
-                                )
-                            }
-                            } />
+                        <View style={{marginBottom:20}}>
+                        <Text style={{ fontSize: 18,fontWeight: 'bold'}}>Change Avatar</Text>
+
+                        </View>
+                        <FlatList style={{ flex: 1 }} numColumns={3} data={avatarData} renderItem={renderItem} />
                     </View>
                 </View>
             </Modal>
-
         </ScrollView>
     )
 }
-
 export default Settings

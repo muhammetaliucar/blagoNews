@@ -21,13 +21,13 @@ const BottomTabBar = ({state}) => {
                 <EvilIcons name="search" size={30} />
                 </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback >
-                <View >
+            <TouchableWithoutFeedback   onPress={() => {navigation.navigate('BottomSaveScreen')}}>
+                <View style={{borderTopWidth:state.index === 2 ? 1 :0,padding:5}} >
                 <FontAwesome5 name="bookmark" size={22} />
                 </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={() => {navigation.navigate('BottomSettings')}}>
-                <View style={{borderTopWidth:state.index === 2 ? 1 :0,padding:5}} >
+                <View style={{borderTopWidth:state.index === 3 ? 1 :0,padding:5}} >
                 <Feather name="settings" size={24} />
                 </View>
             </TouchableWithoutFeedback>
