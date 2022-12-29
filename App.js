@@ -1,22 +1,15 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Toast from 'react-native-toast-message'
-import { Provider, useSelector, useDispatch } from 'react-redux';
-import store from './src/redux/store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState, useEffect } from 'react'
-import AuthScreens from './src/navigation/AuthScreens/AuthScreens';
-import Screens from './src/navigation/Screens/Screens';
+import Toast from 'react-native-toast-message';
+import React from 'react';
 import Navigator from './src/navigation/Navigator/Navigator';
+import UserProvider from './contexts/UserContexts';
 
 const App = () => {
-
   return (
-    <Provider store={store} >
-     <Navigator />
-     <Toast />
-    </Provider>
-  )
-}
+    <UserProvider>
+      <Navigator />
+      <Toast />
+    </UserProvider>
+  );
+};
 
-export default App
+export default App;
